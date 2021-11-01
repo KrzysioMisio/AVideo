@@ -22,7 +22,8 @@ class AD_Server extends PluginAbstract {
     }
 
     public function getDescription() {
-        return "VAST Ad Server<br><small><a href='https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        return __('VAST Ad Server')."<br><small><a href='https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin' target='__blank'>
+			<i class='fas fa-question-circle'></i> " . __('Help')."</a></small>";
     }
 
     public function getName() {
@@ -40,50 +41,50 @@ class AD_Server extends PluginAbstract {
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->start = true;
-        self::addDataObjectHelper('start', 'Show Pre-Roll ads');
+        self::addDataObjectHelper('start', __('Show Pre-Roll ads'));
         $obj->mid25Percent = true;
-        self::addDataObjectHelper('mid25Percent', 'Show Mid-Roll ads at 25%');
+        self::addDataObjectHelper('mid25Percent', __('Show Mid-Roll ads at 25%'));
         $obj->mid50Percent = true;
-        self::addDataObjectHelper('mid50Percent', 'Show Mid-Roll ads at 50%');
+        self::addDataObjectHelper('mid50Percent', __('Show Mid-Roll ads at 50%'));
         $obj->mid75Percent = true;
-        self::addDataObjectHelper('mid75Percent', 'Show Mid-Roll ads at 75%');
+        self::addDataObjectHelper('mid75Percent', __('Show Mid-Roll ads at 75%'));
         $obj->end = true;
-        self::addDataObjectHelper('end', 'Show Post-Roll ads');
+        self::addDataObjectHelper('end', __('Show Post-Roll ads'));
 
         $o = new stdClass();
         $o->type = array();
         for ($i = 0; $i <= 100; $i++) {
-            $o->type[$i . '%'] = "The skip button will appear when you watch {$i}% of the video";
+            $o->type[$i . '%'] = __('The skip button will appear when you watch {$i}% of the video');
         }
         $o->value = '10%';
         $obj->skipoffset = $o;
-        self::addDataObjectHelper('skipoffset', 'Skip Offset', 'This is the percentage where the skip button should appear');
+        self::addDataObjectHelper('skipoffset', __('Skip Offset'), __('This is the percentage where the skip button should appear'));
 
         $obj->showMarkers = true;
-        self::addDataObjectHelper('showMarkers', 'Show Markers', 'Check it if you want to show the yellow markers on the video, where the advertising should appear');
+        self::addDataObjectHelper('showMarkers', __('Show Markers'), __('Check it if you want to show the yellow markers on the video, where the advertising should appear'));
 
         $o = new stdClass();
-        $o->type = array(1 => 'Every video');
+        $o->type = array(1 => __('Every video'));
         for ($i = 2; $i < 10; $i++) {
-            $o->type[$i] = "Show ads on each {$i} videos";
+            $o->type[$i] = __('Show ads on each {$i} videos');
         }
         $o->value = 1;
         $obj->showAdsOnEachVideoView = $o;
-        self::addDataObjectHelper('showAdsOnEachVideoView', 'Show Ads on', 'This defines how often advertisements will appear, for example: if it is set to 2, you will see ads each 2 videos, but if it is set to 1 you will see ads on every video');
+        self::addDataObjectHelper('showAdsOnEachVideoView', __('Show Ads on'), __('This defines how often advertisements will appear, for example: if it is set to 2, you will see ads each 2 videos, but if it is set to 1 you will see ads on every video'));
 
         $o = new stdClass();
-        $o->type = array(0 => 'All positions');
+        $o->type = array(0 => __('All positions'));
         for ($i = 1; $i < 5; $i++) {
-            $o->type[$i] = "Show ads on {$i} random positions";
+            $o->type[$i] = __('Show ads on {$i} random positions');
         }
         $o->value = 2;
         $obj->showAdsOnRandomPositions = $o;
-        self::addDataObjectHelper('showAdsOnRandomPositions', 'Show Ads On Positions', 'This will pick random positions to display the ads, but it will pic only the positions you have checked above. For example, if you want to have 2 random positions, but do not want to have videos on the start position, you must uncheck the start video position checkbox;');
+        self::addDataObjectHelper('showAdsOnRandomPositions', __('Show Ads On Positions'), __('This will pick random positions to display the ads, but it will pic only the positions you have checked above. For example, if you want to have 2 random positions, but do not want to have videos on the start position, you must uncheck the start video position checkbox;'));
 
 
 
         $o = new stdClass();
-        $o->type = array(0 => 'Do not auto add new videos on campaign');
+        $o->type = array(0 => __('Do not auto add new videos on campaign'));
         $rows = VastCampaigns::getAllActive();
         if(!is_array($rows)){
             $o->value = 0;
@@ -95,7 +96,7 @@ class AD_Server extends PluginAbstract {
         }
         $o->value = 0;
         $obj->autoAddNewVideosInCampaignId = $o;
-        self::addDataObjectHelper('autoAddNewVideosInCampaignId', 'Auto Add New Videos In Campaign');
+        self::addDataObjectHelper('autoAddNewVideosInCampaignId', __('Auto Add New Videos In Campaign'));
 
         return $obj;
     }
@@ -249,7 +250,7 @@ class AD_Server extends PluginAbstract {
                 if(!empty($video_length) && $value['timeOffsetSeconds'] >= $video_length){
                     $value['timeOffsetSeconds'] = $video_length-5;
                 }
-                
+
                 $onPlayerReady .= "{time: {$value['timeOffsetSeconds']}, text: \"" . addcslashes($video->getTitle(), '"') . "\"},";
             }
             $onPlayerReady .= "]});";
